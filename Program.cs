@@ -16,6 +16,8 @@ namespace EventHubsDataLake
             // Obtain Connection String from appsettings.json or user-secrets (secrets.json)
             var blobConnString = Configuration["SecretStrings:BlobConnectionString"]; 
             var ehConnString = Configuration["SecretStrings:EhConnectionString"];
+            var iotConnString = Configuration["SecretStrings:IotHubConnectionString"];
+            var iotEhConnString = Configuration["SecretStrings:IotEhConnectionString"];
 
             //Create an Event Hub Handler Class for use in this function
             EventHubHandler ehh = new EventHubHandler(ehConnString);
@@ -41,12 +43,35 @@ namespace EventHubsDataLake
             Console.WriteLine("\n");
 
             //--------------------------------------------------
-            //Read all the messages from the past hour
+            //Read all the messages
             //--------------------------------------------------
             Console.WriteLine("\n");
             Console.WriteLine("Retrieve all messages sitting in EventHub (max of 100)");
             string processAllResult = ehh.processAllEvents().GetAwaiter().GetResult();
             Console.WriteLine(processAllResult);
+            Console.WriteLine("\n");
+
+            // Create an Event Hub Handler Class for use in this function 
+            IotHubHandler ihh = new IotHubHandler(iotConnString, iotEhConnString);
+
+            //--------------------------------------------------
+            //Add Something to an IOT Hub
+            //--------------------------------------------------
+            Console.WriteLine("Sending 3 sample JSON messages to IoT Hub");
+            //Calling an async method requires we get an awaiter inside of main() if we want the results
+            for (int i = 0; i < 3; i++)
+            {
+                string produceResult = ihh.produceEvent("Sample" + i).GetAwaiter().GetResult();
+                Console.WriteLine(produceResult);
+            }
+
+            //--------------------------------------------------
+            //Read all IoT Hub messages 
+            //--------------------------------------------------
+            Console.WriteLine("\n");
+            Console.WriteLine("Retrieve all messages sitting in IoTHub's Native EventHub (max of 100)");
+            string processAllIotResult = ihh.processAllEvents().GetAwaiter().GetResult();
+            Console.WriteLine(processAllIotResult);
             Console.WriteLine("\n");
 
 

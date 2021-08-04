@@ -3,13 +3,14 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
-    <UserSecretsId>439b0a0d-f235-4430-a30f-db0191adf12e</UserSecretsId>
+    <UserSecretsId>eda8990d-4e4b-4934-9506-1f84c893afec</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Azure.Messaging.EventHubs" Version="5.5.0" />
     <PackageReference Include="Azure.Messaging.EventHubs.Processor" Version="5.5.0" />
     <PackageReference Include="Azure.Storage.Blobs" Version="12.9.1" />
+    <PackageReference Include="Microsoft.Azure.Devices.Client" Version="1.37.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="5.0.0" />
     <PackageReference Include="System.Text.Json" Version="5.0.2" />
   </ItemGroup>
